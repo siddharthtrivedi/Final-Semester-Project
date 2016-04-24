@@ -1,0 +1,68 @@
+{% extends "Admin_Base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block breadcrumbs %}
+    <li> <a href="/app_admin/"> Dashboard </a> </li>
+    <li class="active"> {{title}} </li>
+{% endblock %}
+{% block content %}
+{% if form %}
+<!-- Form Errors -->
+{% if form.errors %}
+<ul class="errors">
+    {% for error in form.errors %}
+    <li>
+        {{ error }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<!-- Display Form -->
+<form method="POST">
+    {% csrf_token %}
+    {% load custome_filters %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">
+                            {{title}}
+                        </h4>
+                        <div class="content">
+                            <div class="row">
+                                {% for field in form %}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{field.label}}
+                                        </label>
+                                        {{field|addcss:"form-control"}}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="row" style="line-height: 100px">
+                                <div class="pull-right">
+                                    <a class="btn btn-info btn-fill" href="/app_admin/">
+                                        Cancel
+                                    </a>
+                                    <!-- <button class="btn btn-info btn-fill" type="submit">
+                                        Save and add another
+                                    </button> -->
+                                    <button class="btn btn-info btn-fill" type="submit" href="/app_admin/">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+{% endblock%}

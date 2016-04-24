@@ -1,0 +1,5 @@
+[client]
+database = never_miss_the_bus_db
+user = siddi
+password = siddic00l
+default-character-set = utf8
