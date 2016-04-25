@@ -1,20 +1,28 @@
- {% extends "Admin_Base.html" %} 
- {% block title %} {{ title }} {% endblock %} 
- {% block breadcrumbs %}
-<li> <a href="/app_admin/"> Dashboard </a> </li>
-<li class="active"> {{title}} </li>
-{% endblock %} 
-{% block content %} 
+{% extends "Admin_Base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block breadcrumbs %}
+    <li> <a href="/app_admin/"> Dashboard </a> </li>
+    <li class="active"> {{title}} </li>
+{% endblock %}
+{% block content %}
 {% if form %}
 <!-- Form Errors -->
 {% if form.errors %}
 <ul class="errors">
-    
+    {% for error in form.errors %}
+    <li>
+        {{ error }}
+    </li>
+    {% endfor %}
 </ul>
 {% endif %}
 <!-- Display Form -->
 <form method="POST">
-    {% csrf_token %} {% load custome_filters %}
+    {% csrf_token %}
+    {% load custome_filters %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9">
@@ -28,7 +36,6 @@
                                 {% for field in form %}
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                    	{{field.errors}}
                                         <label>
                                             {{field.label}}
                                         </label>
@@ -57,4 +64,5 @@
         </div>
     </div>
 </form>
-{% endif %} {% endblock%}
+{% endif %}
+{% endblock%}

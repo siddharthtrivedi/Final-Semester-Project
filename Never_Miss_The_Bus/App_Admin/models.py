@@ -12,14 +12,18 @@ class Route(models.Model):
 	route_name = models.CharField(
 		"Route Name", 
 		max_length=50,
-		blank=False
+		blank=False,
+		unique=True,
 	)
 
 	def __str__(self):
 		return self.route_name
 
-	def get_absolute_url(self):
+	def get_absolute_url_for_update(self):
 		return reverse('App_Admin:route_update', args=[str(self.route_id)] ) #"/app_admin/route/%i/" % self.id
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:route_delete', args=[str(self.route_id)] )
 
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
@@ -53,8 +57,11 @@ class Stop(models.Model):
 	def __str__(self):
 		return self.stop_name
 
-	def get_absolute_url(self):
+	def get_absolute_url_for_update(self):
 		return reverse('App_Admin:stop_update', args=[str(self.stop_id)] )
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:stop_delete', args=[str(self.stop_id)] )
 
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
@@ -105,8 +112,11 @@ class Bus(models.Model):
 	def __str__(self):
 		return self.bus_name
 
-	def get_absolute_url(self):
+	def get_absolute_url_for_update(self):
 		return reverse('App_Admin:bus_update', args=[str(self.bus_id)] )
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:bus_delete', args=[str(self.bus_id)] )
 
 	class Meta:
 		verbose_name = "Buses"
@@ -147,7 +157,8 @@ class User(models.Model):
 	email = models.EmailField(
 		'Email',
 		max_length=148,
-		blank=False
+		blank=False,
+		unique=True,
 	)
 	date_joined = models.DateTimeField(
 		auto_now_add = True
@@ -172,8 +183,11 @@ class User(models.Model):
 	)
 	last_login = models.DateTimeField(null=True, editable=False)
 
-	def get_absolute_url(self):
+	def get_absolute_url_for_update(self):
 		return reverse('App_Admin:user_update', args=[str(self.user_id)] )
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:user_delete', args=[str(self.user_id)] )
 
 	def get_fileds(self):
 		gen = [field for field in self._meta.fields]
@@ -228,6 +242,12 @@ class Coord_Reporter_Request(models.Model):
 		max_length=3, 
 		choices= statuses
 	)
+
+	def get_absolute_url_for_update(self):
+		return reverse('App_Admin:request_update', args=[str(self.request_id)] )
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:request_delete', args=[str(self.request_id)] )
 
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]

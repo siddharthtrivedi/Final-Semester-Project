@@ -1,11 +1,15 @@
 from . import forms, models
 from django import forms as django_forms
 from django.views.generic import ListView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.apps import apps
 from django.shortcuts import render
-from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
+def get_context_data(self, **kwargs):
+		context = super(CoordRequestList, self).get_context_data(**kwargs)
+		context['title'] = 'Requests for reporting Bus Coordinates'
+		return context
 # Create your views here.
 
 class UserList(ListView):
@@ -17,16 +21,35 @@ class UserList(ListView):
 		context['title'] = 'Users'
 		return context
 
+class UserCreate(CreateView):
+	model = models.User
+	form_class = forms.User_Form
+	template_name = 'create_form.html'
+	success_url = reverse_lazy('App_Admin:user_list')
+	def get_context_data(self, **kwargs):
+		context = super(UserCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Add User'
+		return context
+
 class UserUpdate(UpdateView):
 	model = models.User
 	form_class = forms.User_Form
 	template_name = 'update_form.html'
-	success_url = '/app_admin/'
+	success_url = reverse_lazy('App_Admin:user_list')
+
 	def get_context_data(self, **kwargs):
 		context = super(UserUpdate, self).get_context_data(**kwargs)
-		context['title'] = 'Users'
+		context['title'] = 'Update User'
 		return context
 
+class UserDelete(DeleteView):
+	model = models.User
+	success_url = reverse_lazy('App_Admin:user_list')
+	template_name = 'confirm_delete.html'
+	def get_context_data(self, **kwargs):
+		context = super(UserDelete, self).get_context_data(**kwargs)
+		context['title'] = 'Delete User'
+		return context
 
 
 def add_user(request):
@@ -49,11 +72,34 @@ class RouteList(ListView):
 		context['title'] = 'Routes'
 		return context
 
+class RouteCreate(CreateView):
+	model = models.Route
+	form_class = forms.Route_Form
+	template_name = 'create_form.html'
+	success_url = reverse_lazy('App_Admin:route_list')
+	def get_context_data(self, **kwargs):
+		context = super(RouteCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Add Route'
+		return context
+
 class RouteUpdate(UpdateView):
 	model = models.Route
 	form_class = forms.Route_Form
 	template_name = 'update_form.html'
-	success_url = '/app_admin/'
+	success_url = reverse_lazy('App_Admin:route_list')
+	def get_context_data(self, **kwargs):
+		context = super(RouteUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Update Route'
+		return context
+
+class RouteDelete(DeleteView):
+	model = models.Route
+	success_url = reverse_lazy('App_Admin:route_list')
+	template_name = 'confirm_delete.html'
+	def get_context_data(self, **kwargs):
+		context = super(RouteDelete, self).get_context_data(**kwargs)
+		context['title'] = 'Delete Route'
+		return context
 
 def add_route(request):
 	title = 'Add Route'
@@ -83,7 +129,20 @@ class StopUpdate(UpdateView):
 	model = models.Stop
 	form_class = forms.Stop_Form
 	template_name = 'update_form.html'
-	success_url = '/app_admin/'
+	success_url = reverse_lazy('App_Admin:stop_list')
+	def get_context_data(self, **kwargs):
+		context = super(StopUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Update Stop'
+		return context
+
+class StopDelete(DeleteView):
+	model = models.Stop
+	success_url = reverse_lazy('App_Admin:stop_list')
+	template_name = 'confirm_delete.html'
+	def get_context_data(self, **kwargs):
+		context = super(StopDelete, self).get_context_data(**kwargs)
+		context['title'] = 'Delete Stop'
+		return context
 
 def add_stop(request):
 	form = forms.Stop_Form(request.POST or None)
@@ -110,7 +169,20 @@ class BusUpdate(UpdateView):
 	model = models.User
 	form_class = forms.Bus_Form
 	template_name = 'update_form.html'
-	success_url = '/app_admin/'
+	success_url = reverse_lazy('App_Admin:bus_list')
+	def get_context_data(self, **kwargs):
+		context = super(BusUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Update Bus'
+		return context
+
+class BusDelete(DeleteView):
+	model = models.Bus
+	success_url = reverse_lazy('App_Admin:bus_list')
+	template_name = 'confirm_delete.html'
+	def get_context_data(self, **kwargs):
+		context = super(BusDelete, self).get_context_data(**kwargs)
+		context['title'] = 'Delete Bus'
+		return context
 
 def add_bus(request):
 	form = forms.Bus_Form(request.POST or None)
@@ -140,7 +212,20 @@ class CoordRequestUpdate(UpdateView):
 	model = models.Coord_Reporter_Request
 	form_class = forms.Coord_Reporter_Request_Form
 	template_name = 'update_form.html'
-	success_url = '/app_admin/'
+	success_url = reverse_lazy('App_Admin:request_list')
+	def get_context_data(self, **kwargs):
+		context = super(CoordRequestUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Request Update'
+		return context
+
+class CoordRequestDelete(DeleteView):
+	model = models.Coord_Reporter_Request
+	success_url = reverse_lazy('App_Admin:request_list')
+	template_name = 'confirm_delete.html'
+	def get_context_data(self, **kwargs):
+		context = super(CoordRequestDelete, self).get_context_data(**kwargs)
+		context['title'] = 'Delete Request'
+		return context
 
 def add_coordrequest(request):
 	form = forms.Coord_Reporter_Request_Form(request.POST or None)

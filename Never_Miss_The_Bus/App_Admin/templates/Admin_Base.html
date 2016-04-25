@@ -108,7 +108,65 @@
             <nav class="navbar navbar-default navbar-fixed">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button class="navbar-toggle" data-toggle="collapse" type="button">
+                        <div class="well" style="float:left; color: white;">
+                            <!-- Application Administration -->
+                            <div class="container-fluid " style="background-color: #234163; line-height: 35px; margin-left: -15px;">
+                                <span>
+                                <h3 style="float: left; text-transform: uppercase; font-size: 16px;font-weight: 300;"> Application Administration </h3>
+                                </span>
+                                <div class="" style=" margin-top: 15px; width: 100%">
+                                    <ul style="list-style-type: none;">
+                                        <li class="dropdown" style="float: left; margin: 0px">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <i class="pe-7s-add-user" style="font-size: 25px; font-weight: 600;"></i>
+                                                <b class="caret"></b>
+                                                <span class="badge" style="font-size: 15px;font-weight: 600;">1</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <h6 class="dropdown-header">Requests for Bus Coordinate</h6>
+                                                <li>
+                                                    <a href="#">Notification 1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Notification 2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Notification 3</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Notification 4</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Another notification</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown" style="float: right;">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <i class="pe-7s-settings" style="font-size: 25px; font-weight: 600;"></i>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <h6 class="dropdown-header">My Account</h6>
+                                                <li>
+                                                    <a href="#">Update Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Change Password</a>
+                                                </li>
+                                                <li>
+                                                    <li class="divider">
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Logout</a>
+                                                    </li>
+                                            </ul>
+                                            </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="navbar-toggle" data-toggle="collapse" type="button" style="float: right;">
                             <span class="sr-only">
                                     Toggle navigation
                                 </span>
@@ -123,68 +181,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="container-fluid" style="background-color: #234163; line-height: 35px;">
-                    <div class="col-md-3 pull-right" style=" margin-top: 10px; margin-right: 130px;">
-                        <ul style="list-style-type: none;">
-                            <li class="dropdown" style="float: left;">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="pe-7s-add-user" style="font-size: 25px; font-weight: 600;"></i>
-                                    <b class="caret"></b>
-                                    <span class="notification" style="font-size: 15px;font-weight: 600;">1</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <h6 class="dropdown-header">Requests for Bus Coordinate</h6>
-                                    <li>
-                                        <a href="#">Notification 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Notification 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Notification 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Notification 4</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Another notification</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown" style="float: right;">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="pe-7s-settings" style="font-size: 25px; font-weight: 600;"></i>
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <h6 class="dropdown-header">My Account</h6>
-                                    <li>
-                                        <a href="#">Update Profile</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Change Password</a>
-                                    </li>
-                                    <li>
-                                        <li class="divider">
-                                        </li>
-                                        <li>
-                                            <a href="#">Logout</a>
-                                        </li>
-                                </ul>
-                                </li>
-                        </ul>
-                    </div>                    
-                </div>
                 <div style="list-style: none;">
-                        <ol class="breadcrumb" href="/app_admin/" style="margin-bottom: 0px;background-color: #FFFFFF;">
-                        
+                    <ol class="breadcrumb" href="/app_admin/" style="margin-bottom: 0px;background-color: #FFFFFF;">
                         {% block breadcrumbs %}
-                            <li class="active"> Dashboard </li>
+                        <li class="active"> Dashboard </li>
                         {% endblock %}
-                            <!-- <li> <a href="#"> Dashboard </a> </li>
+                        <!-- <li> <a href="#"> Dashboard </a> </li>
                             <li class="active"> Routes </li> -->
-                        </ol>    
-                    </div>
+                    </ol>
+                </div>
             </nav>
             <div class="content">
                 {% block content %} {% endblock %}

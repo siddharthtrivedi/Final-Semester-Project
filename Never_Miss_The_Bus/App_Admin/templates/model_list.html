@@ -1,13 +1,7 @@
-{% extends "Admin_Base.html"%}
-{% block title%}
-    {{title}}
-{% endblock %}
-{% block breadcrumbs %}
-    <li> <a href="/app_admin/"> Dashboard </a> </li>
-    <li class="active"> {{title}} </li>
-{% endblock %}
-{% block content %}
-
+{% extends "Admin_Base.html"%} {% block title%} {{title}} {% endblock %} {% block breadcrumbs %}
+<li> <a href="/app_admin/"> Dashboard </a> </li>
+<li class="active"> {{title}} </li>
+{% endblock %} {% block content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -19,50 +13,51 @@
                 </div>
                 <div class="content table-responsive table-full-width">
                     <table class="table table-hover">
-                        
-                            {% for obj in object_list %}
-                                {% if forloop.first %}
-                                    <thead>
-                                    <tr> 
-                                        {% for fld in obj.get_fileds %}
-                                        <th> {{fld}}  </th>
-                                        {% endfor %}
-                                        <th style="text-align: center;"> Actions </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                {% endif %}
-                                <tr>
-                                    {% for val in obj.get_field_values %}
-                                        <td> <small> {{ val }} </small> </td>
-                                    {% endfor %}
-                                    <td>
-                                            <a class="btn btn-info" href="{{obj.get_absolute_url }}" 
-                                            style="line-height: 10px;">
-                                                <div class="pe-7s-config" style="font-size: 15px; padding-right: 10px;float: left;">
-                                                </div>
-                                                <div style="font-size: 15px;float: right; line-height: 15px;">Update</div>
-                                            </a>
-                                            
-                                            <a class="btn btn-danger" href="" style="line-height: 10px; margin-left: 10px">
-                                                <div class="pe-7s-close-circle" style="font-size: 15px; padding-right: 10px; float: left;">
-                                                </div>
-                                                <div style="font-size: 15px;float: right; line-height: 15px;">Delete</div>
-                                            </a>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td> No entries yet.</td>
-                                    </tr>
+                        {% for obj in object_list %} {% if forloop.first %}
+                        <thead>
+                            <tr>
+                                {% for fld in obj.get_fileds %}
+                                <th> {{fld}} </th>
+                                {% endfor %}
+                                <th style="text-align: center;"> Actions </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% endif %}
+                            <tr>
+                                {% for val in obj.get_field_values %}
+                                <td> <small> {{ val }} </small> </td>
+                                {% endfor %}
+                                <td>
+                                    <a class="btn btn-info" href="{{obj.get_absolute_url_for_update }}" style="line-height: 10px;">
+                                        <div class="pe-7s-config" style="font-size: 15px; padding-right: 10px;float: left;">
+                                        </div>
+                                        <div style="font-size: 15px;float: right; line-height: 15px;">Update</div>
+                                    </a>
+                                    <a class="btn btn-danger" href="{{obj.get_absolute_url_for_delete }}" style="line-height: 10px; margin-left: 10px">
+                                        <div class="pe-7s-close-circle" style="font-size: 15px; padding-right: 10px; float: left;">
+                                        </div>
+                                        <div style="font-size: 15px;float: right; line-height: 15px;">Delete</div>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td> No entries yet.</td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div style="margin-left: 20px">
+                        <a class="btn btn-info" href="add/" style="line-height: 10px;">
+                            <div class="pe-7s-plus" style="font-size: 15px; padding-right: 10px;float: left;">
+                            </div>
+                            <div style="font-size: 15px;float: right; line-height: 15px;">Add</div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
