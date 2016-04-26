@@ -17,8 +17,6 @@
     <link href={% static "App_Admin/css/animate.min.css" %} rel="stylesheet" />
     <!--  Light Bootstrap Table core CSS    -->
     <link href={% static "App_Admin/css/light-bootstrap-dashboard.css" %} rel="stylesheet" />
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href={% static "App_Admin/css/demo.css" %} rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
@@ -48,56 +46,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="user.html">
-                            <i class="pe-7s-user">
-                                </i>
-                            <p>
-                                User Profile
-                            </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="table.html">
-                            <i class="pe-7s-note2">
-                                </i>
-                            <p>
-                                Table List
-                            </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="typography.html">
-                            <i class="pe-7s-news-paper">
-                                </i>
-                            <p>
-                                Typography
-                            </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="icons.html">
-                            <i class="pe-7s-science">
-                                </i>
-                            <p>
-                                Icons
-                            </p>
-                        </a>
-                    </li>
-                    <li>
                         <a href="maps.html">
                             <i class="pe-7s-map-marker">
                                 </i>
                             <p>
-                                Maps
-                            </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">
-                            <i class="pe-7s-bell">
-                                </i>
-                            <p>
-                                Notifications
+                                Buses Maps
                             </p>
                         </a>
                     </li>
@@ -106,45 +59,59 @@
         </div>
         <div class="main-panel">
             <nav class="navbar navbar-default navbar-fixed">
-                <div class="container-fluid">
+                <div class="container-fluid well" style="background-color: #234163;">
                     <div class="navbar-header">
-                        <div class="well" style="float:left; color: white;">
+                        <div class="" style="float:left; color: white;">
                             <!-- Application Administration -->
-                            <div class="container-fluid " style="background-color: #234163; line-height: 35px; margin-left: -15px;">
+                            <div class="container-fluid " style=" line-height: 35px;">
                                 <span>
-                                <h3 style="float: left; text-transform: uppercase; font-size: 16px;font-weight: 300;"> Application Administration </h3>
+                                <p style="float: left; text-transform: uppercase; font-size: 20px;font-weight: 300;"> Application Administration </p>
                                 </span>
-                                <div class="" style=" margin-top: 15px; width: 100%">
+                                <div class="" style=" margin: 15 0 0 0; width: 100%">
                                     <ul style="list-style-type: none;">
                                         <li class="dropdown" style="float: left; margin: 0px">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                <i class="pe-7s-add-user" style="font-size: 25px; font-weight: 600;"></i>
-                                                <b class="caret"></b>
-                                                <span class="badge" style="font-size: 15px;font-weight: 600;">1</span>
+                                                <i class="pe-7s-add-user" style="font-size: 25px; font-weight: 600; color: white;"></i>
+                                                <b class="caret"></b> {% if notifications_count != 0 %}
+                                                <span class="badge" style="font-size: 15px;  margin-top: -25px; margin-left: -55px; background-color: #057F64">{{notifications_count}}</span> {% endif %}
                                             </a>
-                                            <ul class="dropdown-menu">
-                                                <h6 class="dropdown-header">Requests for Bus Coordinate</h6>
+                                            <ul class="dropdown-menu" style="padding-bottom: 10px; text-align: justify; opacity: 0.95; width: 300;">
+                                                <h6 class="dropdown-header">Requests for Bus Coordinate</h6> {% for n in notifications %}
                                                 <li>
-                                                    <a href="#">Notification 1</a>
+                                                    <div class="container-fluid" style="background-color: #F7F7F8; color:#333; border-radius: 5; border-bottom: outset;">
+                                                        <span style="font-variant: Roboto;">
+                                                     <span style="margin: 0; color: #057F64">
+                                                         {{n.user.first_name}} {{n.user.last_name}}
+                                                     </span>
+                                                     is requesting you to report coordinates for 
+                                                     <span style="margin: 0; color: #057F64">
+                                                     {{n.requestedfor_bus_number.bus_name}}
+                                                     </span>
+                                                      bus currently running on
+                                                      <span style="margin: 0; color: #057F64">
+                                                       {{n.requestedfor_bus_number.route}}.
+                                                       </span>  </span>
+                                                        <div class="pull-right">
+                                                            <a href="" style=" line-height: 10px; margin:0 10 10 0; float: left;" class="btn btn-round btn-info btn-fill">
+                                                         Accept
+                                                     </a>
+                                                            <a href="" style=" line-height: 10px; margin:0 0 10 0; float: right;" class="btn btn-round btn-danger btn-fill">
+                                                         Deny
+                                                     </a>
+                                                        </div>
+                                                    </div>
                                                 </li>
+                                                {% empty %}
                                                 <li>
-                                                    <a href="#">Notification 2</a>
+                                                    <p style="color: #7D7B7B; margin-left: 20px;"> No requests yet. </p>
                                                 </li>
-                                                <li>
-                                                    <a href="#">Notification 3</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Notification 4</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Another notification</a>
-                                                </li>
+                                                {% endfor %}
                                             </ul>
                                         </li>
                                         <li class="dropdown" style="float: right;">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                <i class="pe-7s-settings" style="font-size: 25px; font-weight: 600;"></i>
-                                                <b class="caret"></b>
+                                                <i class="pe-7s-settings" style="font-size: 25px; font-weight: 600; color: white;"></i>
+                                                <b class="caret" style=" color: white;"></b>
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <h6 class="dropdown-header">My Account</h6>
@@ -224,7 +191,7 @@
                         © 2016
                         <a href="/app_admin">
                                 Never Miss The Bus
-                            </a> , made with love for a better web
+                            </a> , made with love
                     </p>
                 </div>
             </footer>
@@ -252,8 +219,6 @@
 <script src={% static "App_Admin/js/light-bootstrap-dashboard.js" %}>
 </script>
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script src={% static "App_Admin/js/demo.js" %}>
-</script>
 <script type="text/javascript">
 // $(document).ready(function(){
 
@@ -265,7 +230,7 @@
 
 //     },{
 //         type: 'info',
-//         timer: 4000
+//         timer: 1000,
 //     });
 
 // });

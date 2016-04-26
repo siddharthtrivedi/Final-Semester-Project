@@ -201,6 +201,9 @@ class User(models.Model):
 			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser'):
 				yield genfield.value_to_string(self)
 
+	def __str__(self):
+		return self.username
+
 	class Meta:
 		verbose_name = "Users"
 
@@ -211,25 +214,26 @@ class Coord_Reporter_Request(models.Model):
 		editable=False
 	)
 
-	user = models.ForeignKey(
+	user = models.OneToOneField(
 		User,
 		on_delete = models.CASCADE,
-		blank=False
+		blank=False,
+		verbose_name='Requested by',
 		)
 
 	requestedfor_bus_number = models.ForeignKey(
 		Bus, 
 		on_delete=models.CASCADE,
-		blank=False
+		blank=False,
+		verbose_name='Requesting for bus'
 	)
 
 	request_created_date_time = models.DateTimeField(
-		auto_now_add=True
+		auto_now_add=True,
+		verbose_name='Request created on'
 	)
 
-	respond_date_time = models.DateTimeField(
-		auto_now=True, 
-		auto_now_add=False, 
+	respond_date_time = models.DateTimeField( 
 		null=True
 	)
 
@@ -240,7 +244,9 @@ class Coord_Reporter_Request(models.Model):
 
 	respond_status = models.CharField(
 		max_length=3, 
-		choices= statuses
+		choices= statuses,
+		default='NVR',
+
 	)
 
 	def get_absolute_url_for_update(self):
@@ -252,11 +258,19 @@ class Coord_Reporter_Request(models.Model):
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
 
+	def get_fileds_type(self):
+		itr = [field.get_internal_type() for field in self._meta.fields]
+		for i in itr:
+			print(i)
+		print('Getting field types.')
+		return itr
+
 	def get_field_values(self):
-		return [(field.value_to_string(self)) for field in self._meta.fields]
+		return [field.value_to_string(self) for field in self._meta.fields]
 
 	class Meta:
 		verbose_name = "Coordinates Reporting Requests"
+
 
 class Coord_Reporter(models.Model):
 	reporter_id = models.AutoField(
@@ -266,18 +280,22 @@ class Coord_Reporter(models.Model):
 
 	allocated_bus = models.ForeignKey(
 		Bus,
-		editable=False
 	)
 
 	acceptance_date = models.DateTimeField(
 		auto_now_add=True,
-		editable=False
 	)
 
 	verifier = models.ForeignKey(
 		User,
-		editable=False
 	)
+
+	def get_absolute_url_for_update(self):
+		return reverse('App_Admin:reporter_update', args=[str(self.reporter_id)] )
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:reporter_delete', args=[str(self.reporter_id)] )
+
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
 

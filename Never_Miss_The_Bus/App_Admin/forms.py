@@ -1,5 +1,4 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 from . import models
 from django.utils.translation import ugettext_lazy as tolabel
 
@@ -39,7 +38,16 @@ class Bus_Form(forms.ModelForm):
 class Coord_Reporter_Request_Form(forms.ModelForm):
 	class Meta:
 		model = models.Coord_Reporter_Request
-		fields = ['requestedfor_bus_number']
+		fields = ['requestedfor_bus_number', 'user']
 		labels={
-			'requestedfor_bus_number' : tolabel('Requesting for which bus (number)'),
+			'requestedfor_bus_number' : tolabel('Requesting for bus'),
 		}
+
+class Reporter_Form(forms.ModelForm):
+	class Meta:
+		model = models.Coord_Reporter
+		# readonly_fields = ['reporter_id', 'allocated_bus', 'acceptance_date', 'verifier']
+		# fields = []
+		fields = ['allocated_bus', 'verifier']
+		# for i in model._meta.fields:
+		# 	print(fields.append(str(i)))

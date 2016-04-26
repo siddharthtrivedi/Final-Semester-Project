@@ -6,7 +6,3 @@ register = template.Library()
 
 def addcss(field, arg):
 	return field.as_widget(attrs={"class": arg})
-
-@register.filter(name='zip')
-def zip_lists(a, b):
-  return zip(a, b)
