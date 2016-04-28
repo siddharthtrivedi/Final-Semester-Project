@@ -70,7 +70,7 @@
                                 <div class="" style=" margin: 15 0 0 0; width: 100%">
                                     <ul style="list-style-type: none;">
                                         <li class="dropdown" style="float: left; margin: 0px">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <a class="dropdown-toggle" data-toggle="dropdown">
                                                 <i class="pe-7s-add-user" style="font-size: 25px; font-weight: 600; color: white;"></i>
                                                 <b class="caret"></b> {% if notifications_count != 0 %}
                                                 <span class="badge" style="font-size: 15px;  margin-top: -25px; margin-left: -55px; background-color: #057F64">{{notifications_count}}</span> {% endif %}
@@ -92,10 +92,10 @@
                                                        {{n.requestedfor_bus_number.route}}.
                                                        </span>  </span>
                                                         <div class="pull-right">
-                                                            <a href="" style=" line-height: 10px; margin:0 10 10 0; float: left;" class="btn btn-round btn-info btn-fill">
+                                                            <a href="{{n.get_absolute_url_for_accept}}?id={{n.request_id }}" style=" line-height: 10px; margin:0 10 10 0; float: left;" class="btn btn-round btn-info btn-fill">
                                                          Accept
                                                      </a>
-                                                            <a href="" style=" line-height: 10px; margin:0 0 10 0; float: right;" class="btn btn-round btn-danger btn-fill">
+                                                            <a href="{{n.get_absolute_url_for_deny}}?id={{n.request_id }}" style=" line-height: 10px; margin:0 0 10 0; float: right;" class="btn btn-round btn-danger btn-fill">
                                                          Deny
                                                      </a>
                                                         </div>

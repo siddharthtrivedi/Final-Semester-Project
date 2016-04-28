@@ -23,17 +23,17 @@ class User_Form(forms.ModelForm):
 class Route_Form(forms.ModelForm):
 	class Meta:
 		model = models.Route
-		fields = ['route_name']
+		fields = ['route_name', 'stops']
 
 class Stop_Form(forms.ModelForm):
 	class Meta:
 		model = models.Stop
-		fields = ['stop_name', 'route']
+		fields = ['stop_name']
 
 class Bus_Form(forms.ModelForm):
 	class Meta:
 		model = models.Bus
-		fields = ['bus_name', 'route', 'status', 'stops']
+		fields = ['bus_name', 'route']
 
 class Coord_Reporter_Request_Form(forms.ModelForm):
 	class Meta:
@@ -43,11 +43,22 @@ class Coord_Reporter_Request_Form(forms.ModelForm):
 			'requestedfor_bus_number' : tolabel('Requesting for bus'),
 		}
 
+	def __init__(self, *args, **kwargs):
+		super(Coord_Reporter_Request_Form, self).__init__(*args, **kwargs)
+		if self.instance:
+			self.fields["requestedfor_bus_number"].queryset = models.Bus.objects.filter(status='OPN')
+			all_users = models.User.objects.all()
+			current_reporters = models.Coord_Reporter.objects.all()
+			current_requests = models.Coord_Reporter_Request.objects.all()
+			reporter_excluded_qs = all_users.exclude(user_id__in = current_reporters.values_list('user_id'))
+			self.fields["user"].queryset = reporter_excluded_qs.exclude(user_id__in = current_requests.values_list('user_id'))
+
+
 class Reporter_Form(forms.ModelForm):
 	class Meta:
 		model = models.Coord_Reporter
 		# readonly_fields = ['reporter_id', 'allocated_bus', 'acceptance_date', 'verifier']
 		# fields = []
-		fields = ['allocated_bus', 'verifier']
+		fields = ['allocated_bus', 'accepted_by']
 		# for i in model._meta.fields:
 		# 	print(fields.append(str(i)))

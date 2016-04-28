@@ -3,36 +3,6 @@ from django.core.validators import RegexValidator
 from django.core.urlresolvers import reverse
 
 # Create your models here.
-class Route(models.Model):
-	route_id = models.AutoField(
-		primary_key=True, 
-		editable=False,
-		verbose_name='Route ID'
-	)
-	route_name = models.CharField(
-		"Route Name", 
-		max_length=50,
-		blank=False,
-		unique=True,
-	)
-
-	def __str__(self):
-		return self.route_name
-
-	def get_absolute_url_for_update(self):
-		return reverse('App_Admin:route_update', args=[str(self.route_id)] ) #"/app_admin/route/%i/" % self.id
-
-	def get_absolute_url_for_delete(self):
-		return reverse('App_Admin:route_delete', args=[str(self.route_id)] )
-
-	def get_fileds(self):
-		return [field.verbose_name for field in self._meta.fields]
-
-	def get_field_values(self):
-		return [(field.value_to_string(self)) for field in self._meta.fields]
-
-	class Meta:
-		verbose_name = "Routes"
 
 class Stop(models.Model):
 	stop_id = models.AutoField(
@@ -44,14 +14,8 @@ class Stop(models.Model):
 	stop_name = models.CharField(
 		"Stop Name", 
 		max_length=50,
-		blank=False
-	)
-
-	route = models.ForeignKey(
-		Route, 
-		on_delete=models.CASCADE,
-		verbose_name='Route ID',
-		blank=False
+		blank=False,
+		unique=True,
 	)
 
 	def __str__(self):
@@ -72,6 +36,41 @@ class Stop(models.Model):
 	class Meta:
 		verbose_name = "Stops"
 
+class Route(models.Model):
+	route_id = models.AutoField(
+		primary_key=True, 
+		editable=False,
+		verbose_name='Route ID'
+	)
+	route_name = models.CharField(
+		"Route Name", 
+		max_length=50,
+		blank=False,
+		unique=True,
+	)
+
+	stops = models.ManyToManyField(Stop,
+		blank=False,
+		verbose_name='Have stops')
+
+	def __str__(self):
+		return self.route_name
+
+	def get_absolute_url_for_update(self):
+		return reverse('App_Admin:route_update', args=[str(self.route_id)] ) #"/app_admin/route/%i/" % self.id
+
+	def get_absolute_url_for_delete(self):
+		return reverse('App_Admin:route_delete', args=[str(self.route_id)] )
+
+	def get_fileds(self):
+		return [field.verbose_name for field in self._meta.fields]
+
+	def get_field_values(self):
+		return [(field.value_to_string(self)) for field in self._meta.fields]
+
+	class Meta:
+		verbose_name = "Routes"
+
 class Bus(models.Model):
 	bus_id = models.AutoField(
 		verbose_name='ID',
@@ -89,8 +88,7 @@ class Bus(models.Model):
 		verbose_name='Route Number',
 		blank=False
 	)
-	stops = models.ManyToManyField(Stop,
-		blank=False)
+
 	statuses = (
 		('REG', 'Registered'),
 		('OPN', 'Open/Not Registered'),
@@ -100,8 +98,11 @@ class Bus(models.Model):
 		choices=statuses, 
 		max_length=3, 
 		default='OPN',
-		blank=False
+		blank=False,
 	)
+
+	def set_status(self, status = 'OPN'):
+		self.status = status
 
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
@@ -133,7 +134,6 @@ class User(models.Model):
 		unique=True,
 		max_length=30,
 		blank=False,
-		error_messages={'blank' : "Please let us know what to call you!"},
 	)
 	password = models.CharField(
 		'Password',
@@ -249,6 +249,12 @@ class Coord_Reporter_Request(models.Model):
 
 	)
 
+	def get_absolute_url_for_accept(self):
+		return reverse('App_Admin:accept_request')
+
+	def get_absolute_url_for_deny(self):
+		return reverse('App_Admin:deny_request')
+
 	def get_absolute_url_for_update(self):
 		return reverse('App_Admin:request_update', args=[str(self.request_id)] )
 
@@ -257,13 +263,6 @@ class Coord_Reporter_Request(models.Model):
 
 	def get_fileds(self):
 		return [field.verbose_name for field in self._meta.fields]
-
-	def get_fileds_type(self):
-		itr = [field.get_internal_type() for field in self._meta.fields]
-		for i in itr:
-			print(i)
-		print('Getting field types.')
-		return itr
 
 	def get_field_values(self):
 		return [field.value_to_string(self) for field in self._meta.fields]
@@ -278,6 +277,13 @@ class Coord_Reporter(models.Model):
 		editable=False
 	)
 
+	user = models.OneToOneField(
+		User,
+		on_delete = models.CASCADE,
+		blank=False,
+		verbose_name='Reporter',
+	)
+
 	allocated_bus = models.ForeignKey(
 		Bus,
 	)
@@ -286,8 +292,10 @@ class Coord_Reporter(models.Model):
 		auto_now_add=True,
 	)
 
-	verifier = models.ForeignKey(
+	accepted_by = models.ForeignKey(
 		User,
+		related_name = 'accepted_by',
+		on_delete = models.CASCADE,
 	)
 
 	def get_absolute_url_for_update(self):

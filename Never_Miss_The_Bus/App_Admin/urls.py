@@ -34,6 +34,9 @@ urlpatterns = [
 	url(r'^request/delete/(?P<pk>[0-9]+)/$',views.CoordRequestDelete.as_view(), name = "request_delete"),
 	url(r'^reporter/delete/(?P<pk>[0-9]+)/$',views.ReporterDelete.as_view(), name = "reporter_delete"),
 
+	url(r'^request/accept/$',views.accept_request, name = "accept_request"),
+	url(r'^request/deny/$',views.deny_request, name = "deny_request"),
+	
 
 	url(r'^$',views.dashboard, name = "Dashboard"),
 ]

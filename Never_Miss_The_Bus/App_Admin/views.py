@@ -3,7 +3,7 @@ from django import forms as django_forms
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.apps import apps
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 
@@ -57,6 +57,15 @@ class ReporterDelete(DeleteView):
 	model = models.Coord_Reporter
 	success_url = reverse_lazy('App_Admin:reporter_list')
 	template_name = 'confirm_delete.html'
+
+	def delete(self, request, *args, **kwargs):
+	    self.object = self.get_object()
+	    bus_obj = get_object_or_404(models.Bus,pk=self.object.allocated_bus_id)
+	    bus_obj.status = "OPN"
+	    bus_obj.save()
+	    print("Delete View Called")
+	    # self.object.delete()
+	    return super(ReporterDelete, self).delete(request, *args, **kwargs)
 	
 	def get_context_data(self, **kwargs):
 		context = super(ReporterDelete, self).get_context_data(**kwargs)
@@ -447,3 +456,25 @@ def dashboard(request):
 	template = "dashboard.html"
 
 	return render(request, template, context)
+
+def accept_request(request):
+	request_id = request.GET.get('id')
+	request_obj = get_object_or_404(models.Coord_Reporter_Request, pk=request_id)
+	bus_obj = get_object_or_404(models.Bus, pk=request_obj.requestedfor_bus_number_id)
+	bus_obj.status ='REG'
+	bus_obj.save()
+	request_obj_to_del = models.Coord_Reporter_Request.objects.filter(requestedfor_bus_number_id=bus_obj)
+	request_obj_to_del.delete()
+	reporter_obj = models.Coord_Reporter()
+	reporter_obj.user = request_obj.user
+	reporter_obj.allocated_bus= bus_obj
+	reporter_obj.accepted_by = request_obj.user
+	request_obj.delete()
+	reporter_obj.save()
+	return redirect(reverse_lazy('App_Admin:request_list'))
+
+def deny_request(request):
+	request_id = request.GET.get('id')
+	request_obj = get_object_or_404(models.Coord_Reporter_Request, pk=request_id)
+	request_obj.delete()
+	return redirect(reverse_lazy('App_Admin:request_list'))
