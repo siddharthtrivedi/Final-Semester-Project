@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.contrib.auth.models import User as Django_User
 from django.core.urlresolvers import reverse
 
 # Create your models here.
@@ -123,82 +123,24 @@ class Bus(models.Model):
 		verbose_name = "Buses"
 
 
-class User(models.Model):
-	user_id = models.AutoField(
-		'ID',
-		primary_key=True,
-		editable=False,
-	)
-	username = models.CharField(
-		'User Name',
-		unique=True,
-		max_length=30,
-		blank=False,
-	)
-	password = models.CharField(
-		'Password',
-		max_length=128,
-		blank=False
-	)
-	is_superuser = models.BooleanField(
-		editable=False,
-		default=False
-	)
-	first_name = models.CharField(
-		'First Name',
-		max_length=30,
-		blank=False
-	)
-	last_name = models.CharField(
-		'Last Name',
-		max_length=30,
-		blank=False
-	)
-	email = models.EmailField(
-		'Email',
-		max_length=148,
-		blank=False,
-		unique=True,
-	)
-	date_joined = models.DateTimeField(
-		auto_now_add = True
-	)
-	last_modified = models.DateTimeField(
-		auto_now=True,
-		auto_now_add=False,
-		null=True,
-		editable=False
-	)
-
-	cell_number_validator = RegexValidator(
-		regex=r'^\+{1}\d{12}$', 
-		message="Cell number must contain country code and then followed by 10 digits!"
-	)
-
-	cell_number = models.CharField(
-		'Cell Number',
-		# validators=[cell_number_validator], 
-		blank=False, 
-		max_length=13
-	)
-	last_login = models.DateTimeField(null=True, editable=False)
+class User(Django_User):
 
 	def get_absolute_url_for_update(self):
-		return reverse('App_Admin:user_update', args=[str(self.user_id)] )
+		return reverse('App_Admin:user_update', args=[str(self.id)] )
 
 	def get_absolute_url_for_delete(self):
-		return reverse('App_Admin:user_delete', args=[str(self.user_id)] )
+		return reverse('App_Admin:user_delete', args=[str(self.id)] )
 
 	def get_fileds(self):
 		gen = [field for field in self._meta.fields]
 		for genfield in gen:
-			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser'):
+			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
 				yield genfield.verbose_name
 
 	def get_field_values(self):
 		gen = [field for field in self._meta.fields]
 		for genfield in gen:
-			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser'):
+			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
 				yield genfield.value_to_string(self)
 
 	def __str__(self):

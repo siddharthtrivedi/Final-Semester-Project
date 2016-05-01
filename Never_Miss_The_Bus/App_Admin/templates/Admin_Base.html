@@ -82,6 +82,7 @@
                                                         <span style="font-variant: Roboto;">
                                                      <span style="margin: 0; color: #057F64">
                                                          {{n.user.first_name}} {{n.user.last_name}}
+                                                         ({{n.user.username}})
                                                      </span>
                                                      is requesting you to report coordinates for 
                                                      <span style="margin: 0; color: #057F64">
@@ -197,6 +198,10 @@
             </footer>
         </div>
     </div>
+    <script>
+        {% block JavaScript %}
+        {%endblock%}
+    </script>
 </body>
 <!--   Core JS Files   -->
 <script src={% static "App_Admin/js/jquery-1.10.2.js" %} type="text/javascript">
@@ -219,7 +224,13 @@
 <script src={% static "App_Admin/js/light-bootstrap-dashboard.js" %}>
 </script>
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+<link rel="stylesheet" href={% static "Material Kit/uni_form/uni-form.css" %} type="text/css" />
+<link rel="stylesheet" href={% static "Material Kit/uni_form/dark.uni-form.css" %} type="text/css" />
+<!-- uni-form JS library, optional -->
+<script src={% static "Material Kit/uni_form/uni-form.jquery.js" %} type="text/javascript"></script>
 <script type="text/javascript">
+// note that there's also blue.uni-form.css and dark.uni-form.css available if you want to try changing defaults up
+
 // $(document).ready(function(){
 
 //     demo.initChartist();

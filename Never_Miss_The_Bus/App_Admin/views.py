@@ -1,11 +1,11 @@
 from . import forms, models
-from django import forms as django_forms
+# from django import forms as django_forms
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.apps import apps
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponseRedirect
 
 # Create your views here.
 
