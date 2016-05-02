@@ -46,10 +46,7 @@
                                     <a class="btn btn-info btn-fill" href="..">
                                         Cancel
                                     </a>
-                                    <button class="btn btn-info btn-fill" type="submit" action=".">
-                                        Save and add another
-                                    </button>
-                                    <button class="btn btn-info btn-fill" type="submit" href="">
+                                    <button class="btn btn-info btn-fill" type="submit">
                                         Save
                                     </button>
                                 </div>
@@ -63,3 +60,18 @@
 </form>
 {% endif %} 
 {% endblock%} 
+{% block JavaScript %}
+<!-- console.log("Hello"); -->
+$(document).ready(function(){
+    $('#id_origin').on('change',function() {
+        var $options = $("#id_origin > option").clone();
+        $('#id_stops option').remove();
+        $('#id_stops').append($options);
+        var selected_stop = $(this).find(':selected').attr('value');
+        $("#id_stops option[value="+selected_stop+"]").remove();
+        $("#id_stops option[value='']").remove();
+        
+    });
+});
+
+{%endblock%}

@@ -49,9 +49,17 @@ class Route(models.Model):
 		unique=True,
 	)
 
-	stops = models.ManyToManyField(Stop,
+	origin = models.ForeignKey(
+		Stop,
 		blank=False,
-		verbose_name='Have stops')
+		related_name="%(app_label)s_origin_stop_related",
+		verbose_name='Origin Stop',
+	)
+
+	stops = models.ManyToManyField(
+		Stop,
+		blank=False,
+		verbose_name='Stops')
 
 	def __str__(self):
 		return self.route_name

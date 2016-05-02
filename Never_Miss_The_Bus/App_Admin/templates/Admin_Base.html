@@ -24,6 +24,7 @@
     </link>
     </link>
     </link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </head>
 
 <body>
@@ -198,11 +199,12 @@
             </footer>
         </div>
     </div>
-    <script>
-        {% block JavaScript %}
-        {%endblock%}
-    </script>
 </body>
+<!-- Cusom JavaScript -->
+<script>
+    {% block JavaScript %}
+    {%endblock%}
+</script>
 <!--   Core JS Files   -->
 <script src={% static "App_Admin/js/jquery-1.10.2.js" %} type="text/javascript">
 </script>
@@ -224,10 +226,10 @@
 <script src={% static "App_Admin/js/light-bootstrap-dashboard.js" %}>
 </script>
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<link rel="stylesheet" href={% static "Material Kit/uni_form/uni-form.css" %} type="text/css" />
-<link rel="stylesheet" href={% static "Material Kit/uni_form/dark.uni-form.css" %} type="text/css" />
+<link rel="stylesheet" href={% static "Material_Kit/uni-form/uni-form.css" %} type="text/css" />
+<link rel="stylesheet" href={% static "Material_Kit/uni-form/dark.uni-form.css" %} type="text/css" />
 <!-- uni-form JS library, optional -->
-<script src={% static "Material Kit/uni_form/uni-form.jquery.js" %} type="text/javascript"></script>
+<script src={% static "Material_Kit/uni-form/uni-form.jquery.js" %} type="text/javascript"></script>
 <script type="text/javascript">
 // note that there's also blue.uni-form.css and dark.uni-form.css available if you want to try changing defaults up
 

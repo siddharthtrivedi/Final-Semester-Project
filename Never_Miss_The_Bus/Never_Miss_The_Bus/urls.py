@@ -17,7 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
+    #django urls
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^app_admin/', include('App_Admin.urls', app_name="App_Admin",namespace='admin-app')),
+    #django-registration-redux urls
     url(r'^accounts/', include('registration.backends.default.urls')),
+    #Custom apps' urls
+    url(r'^app_admin/', include('App_Admin.urls', app_name="App_Admin",namespace='admin-app')),
+    url(r'', include('Client.urls', app_name="Client_App",namespace='client-app')),
 ]

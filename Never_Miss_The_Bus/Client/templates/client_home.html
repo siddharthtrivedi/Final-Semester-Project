@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+</head>
+<body>
+	<h1> Hello World. </h1>
+	<p>
+	{% if request.method == 'GET'%}
+		<form action="" method="POST">{% csrf_token %}
+			<select name="bus_select" id="id_bus_select">
+			{% for bus in buses %}
+				<option value="{{bus.bus_id}}"> {{bus}} </option>
+			{% endfor %}
+			</select>
+			<input type="submit" value="GET STOPS" />
+		</form>
+	{% else %}
+		<select name="stop_select" id="id_stop_select">
+		{% for stop in stops %}
+				<option value="{{bus.stop_id}}"> {{stop}} </option>
+			{% endfor %}
+		</select>
+	{% endif %}
+		
+	</p>
+</body>
+</html>

@@ -24,7 +24,7 @@ class User_Form(UserCreationForm):
 class Route_Form(forms.ModelForm):
 	class Meta:
 		model = models.Route
-		fields = ['route_name', 'stops']
+		fields = ['route_name','origin' ,'stops']
 
 class Stop_Form(forms.ModelForm):
 	class Meta:

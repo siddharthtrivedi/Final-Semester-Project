@@ -64,7 +64,7 @@ ROOT_URLCONF = 'Never_Miss_The_Bus.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'App_Admin', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'App_Admin', 'templates'), os.path.join(BASE_DIR, 'Client', 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
