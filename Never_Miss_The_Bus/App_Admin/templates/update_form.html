@@ -1,9 +1,11 @@
  {% extends "Admin_Base.html" %} 
+  {% load crispy_forms_tags %}
  {% block title %} {{ title }} {% endblock %} 
  {% block breadcrumbs %}
 <li> <a href="/app_admin/"> Dashboard </a> </li>
 <li class="active"> {{title}} </li>
 {% endblock %} 
+
 {% block content %} 
 {% if form %}
 <!-- Form Errors -->
@@ -25,17 +27,11 @@
                         </h4>
                         <div class="content">
                             <div class="row">
-                                {% for field in form %}
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                    	{{field.errors}}
-                                        <label>
-                                            {{field.label}}
-                                        </label>
-                                        {{field|addcss:"form-control"}}
+                                    	{{form | crispy}}
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
                             <div class="row" style="line-height: 100px">
                                 <div class="pull-right">
@@ -58,3 +54,18 @@
     </div>
 </form>
 {% endif %} {% endblock%}
+{% block JavaScript %}
+<!-- console.log("Hello"); -->
+$(document).ready(function(){
+    $('#id_origin').on('change',function() {
+        var $options = $("#id_origin > option").clone();
+        $('#id_stops option').remove();
+        $('#id_stops').append($options);
+        var selected_stop = $(this).find(':selected').attr('value');
+        $("#id_stops option[value="+selected_stop+"]").remove();
+        $("#id_stops option[value='']").remove();
+        
+    });
+});
+
+{%endblock%}

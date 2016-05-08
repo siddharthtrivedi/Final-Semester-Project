@@ -76,64 +76,64 @@ class ReporterDelete(DeleteView):
 		context['notifications_count'] = notifications_count
 		return context
 
-class UserList(ListView):
-	model = models.User
-	template_name = 'list_tables.html'
+# class UserList(ListView):
+# 	model = models.User
+# 	template_name = 'list_tables.html'
 	
 
-	def get_context_data(self, **kwargs):
-		context = super(UserList, self).get_context_data(**kwargs)
-		context['title'] = 'Users'
-		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
-		notifications_count = len(notifications)
-		context['notifications'] = notifications
-		context['notifications_count'] = notifications_count
-		return context
+# 	def get_context_data(self, **kwargs):
+# 		context = super(UserList, self).get_context_data(**kwargs)
+# 		context['title'] = 'Users'
+# 		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
+# 		notifications_count = len(notifications)
+# 		context['notifications'] = notifications
+# 		context['notifications_count'] = notifications_count
+# 		return context
 
-class UserCreate(CreateView):
-	model = models.User
-	form_class = forms.User_Form
-	template_name = 'create_form.html'
+# class UserCreate(CreateView):
+# 	model = models.User
+# 	form_class = forms.User_Form
+# 	template_name = 'create_form.html'
 	
-	success_url = reverse_lazy('App_Admin:user_list')
-	def get_context_data(self, **kwargs):
-		context = super(UserCreate, self).get_context_data(**kwargs)
-		context['title'] = 'Add User'
-		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
-		notifications_count = len(notifications)
-		context['notifications'] = notifications
-		context['notifications_count'] = notifications_count
-		return context
+# 	success_url = reverse_lazy('App_Admin:user_list')
+# 	def get_context_data(self, **kwargs):
+# 		context = super(UserCreate, self).get_context_data(**kwargs)
+# 		context['title'] = 'Add User'
+# 		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
+# 		notifications_count = len(notifications)
+# 		context['notifications'] = notifications
+# 		context['notifications_count'] = notifications_count
+# 		return context
 
-class UserUpdate(UpdateView):
-	model = models.User
-	form_class = forms.User_Form
-	template_name = 'update_form.html'
+# class UserUpdate(UpdateView):
+# 	model = models.User
+# 	form_class = forms.User_Form
+# 	template_name = 'update_form.html'
 	
-	success_url = reverse_lazy('App_Admin:user_list')
+# 	success_url = reverse_lazy('App_Admin:user_list')
 
-	def get_context_data(self, **kwargs):
-		context = super(UserUpdate, self).get_context_data(**kwargs)
-		context['title'] = 'Update User'
-		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
-		notifications_count = len(notifications)
-		context['notifications'] = notifications
-		context['notifications_count'] = notifications_count
-		return context
+# 	def get_context_data(self, **kwargs):
+# 		context = super(UserUpdate, self).get_context_data(**kwargs)
+# 		context['title'] = 'Update User'
+# 		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
+# 		notifications_count = len(notifications)
+# 		context['notifications'] = notifications
+# 		context['notifications_count'] = notifications_count
+# 		return context
 
-class UserDelete(DeleteView):
-	model = models.User
-	success_url = reverse_lazy('App_Admin:user_list')
-	template_name = 'confirm_delete.html'
+# class UserDelete(DeleteView):
+# 	model = models.User
+# 	success_url = reverse_lazy('App_Admin:user_list')
+# 	template_name = 'confirm_delete.html'
 	
-	def get_context_data(self, **kwargs):
-		context = super(UserDelete, self).get_context_data(**kwargs)
-		context['title'] = 'Delete User'
-		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
-		notifications_count = len(notifications)
-		context['notifications'] = notifications
-		context['notifications_count'] = notifications_count
-		return context
+# 	def get_context_data(self, **kwargs):
+# 		context = super(UserDelete, self).get_context_data(**kwargs)
+# 		context['title'] = 'Delete User'
+# 		notifications = models.Coord_Reporter_Request.objects.filter(respond_status='NVR');
+# 		notifications_count = len(notifications)
+# 		context['notifications'] = notifications
+# 		context['notifications_count'] = notifications_count
+# 		return context
 
 
 # def add_user(request):
@@ -320,7 +320,7 @@ class BusCreate(CreateView):
 		return context
 
 class BusUpdate(UpdateView):
-	model = models.User
+	model = models.Bus
 	form_class = forms.Bus_Form
 	template_name = 'update_form.html'
 	

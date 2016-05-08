@@ -1,11 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from . import models
+from django.contrib.auth.models import User as Auth_User
 from django.utils.translation import ugettext_lazy as tolabel
 
 class User_Form(UserCreationForm):
 	class Meta:
-		model = models.User
+		model = Auth_User
 		fields = ['first_name', 'last_name', 'username','email']
 		widgets = { 
             'username': forms.TextInput(attrs={'required': 'required'}),
@@ -48,7 +49,7 @@ class Coord_Reporter_Request_Form(forms.ModelForm):
 		super(Coord_Reporter_Request_Form, self).__init__(*args, **kwargs)
 		if self.instance:
 			self.fields["requestedfor_bus_number"].queryset = models.Bus.objects.filter(status='OPN')
-			all_users = models.User.objects.all()
+			all_users = Auth_User.objects.all()
 			current_reporters = models.Coord_Reporter.objects.all()
 			current_requests = models.Coord_Reporter_Request.objects.all()
 			reporter_excluded_qs = all_users.exclude(id__in = current_reporters.values_list('user'))
@@ -60,6 +61,6 @@ class Reporter_Form(forms.ModelForm):
 		model = models.Coord_Reporter
 		# readonly_fields = ['reporter_id', 'allocated_bus', 'acceptance_date', 'verifier']
 		# fields = []
-		fields = ['allocated_bus', 'accepted_by']
+		fields = ['allocated_bus', 'user', 'accepted_by']
 		# for i in model._meta.fields:
 		# 	print(fields.append(str(i)))

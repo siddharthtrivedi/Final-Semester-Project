@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User as Django_User
+from django.contrib.auth.models import User as Auth_User
 from django.core.urlresolvers import reverse
 
 # Create your models here.
@@ -87,13 +87,14 @@ class Bus(models.Model):
 	)
 	bus_name = models.CharField(
 		"Bus Name",
+		unique=True,
 		max_length=30,
 		blank=False
 	)
 	route = models.ForeignKey(
 		Route, 
 		on_delete=models.CASCADE,
-		verbose_name='Route Number',
+		verbose_name='Route',
 		blank=False
 	)
 
@@ -131,31 +132,31 @@ class Bus(models.Model):
 		verbose_name = "Buses"
 
 
-class User(Django_User):
+# class User(Auth_User):
 
-	def get_absolute_url_for_update(self):
-		return reverse('App_Admin:user_update', args=[str(self.id)] )
+# 	def get_absolute_url_for_update(self):
+# 		return reverse('App_Admin:user_update', args=[str(self.id)] )
 
-	def get_absolute_url_for_delete(self):
-		return reverse('App_Admin:user_delete', args=[str(self.id)] )
+# 	def get_absolute_url_for_delete(self):
+# 		return reverse('App_Admin:user_delete', args=[str(self.id)] )
 
-	def get_fileds(self):
-		gen = [field for field in self._meta.fields]
-		for genfield in gen:
-			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
-				yield genfield.verbose_name
+# 	def get_fileds(self):
+# 		gen = [field for field in self._meta.fields]
+# 		for genfield in gen:
+# 			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
+# 				yield genfield.verbose_name
 
-	def get_field_values(self):
-		gen = [field for field in self._meta.fields]
-		for genfield in gen:
-			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
-				yield genfield.value_to_string(self)
+# 	def get_field_values(self):
+# 		gen = [field for field in self._meta.fields]
+# 		for genfield in gen:
+# 			if genfield.name not in ('last_modified', 'date_joined', 'last_login', 'is_superuser', 'password', 'staff_status','active','user_ptr'):
+# 				yield genfield.value_to_string(self)
 
-	def __str__(self):
-		return self.username
+# 	def __str__(self):
+# 		return self.username
 
-	class Meta:
-		verbose_name = "Users"
+# 	class Meta:
+# 		verbose_name = "Users"
 
 
 class Coord_Reporter_Request(models.Model):
@@ -165,7 +166,7 @@ class Coord_Reporter_Request(models.Model):
 	)
 
 	user = models.OneToOneField(
-		User,
+		Auth_User,
 		on_delete = models.CASCADE,
 		blank=False,
 		verbose_name='Requested by',
@@ -228,7 +229,7 @@ class Coord_Reporter(models.Model):
 	)
 
 	user = models.OneToOneField(
-		User,
+		Auth_User,
 		on_delete = models.CASCADE,
 		blank=False,
 		verbose_name='Reporter',
@@ -243,7 +244,7 @@ class Coord_Reporter(models.Model):
 	)
 
 	accepted_by = models.ForeignKey(
-		User,
+		Auth_User,
 		related_name = 'accepted_by',
 		on_delete = models.CASCADE,
 	)
@@ -259,6 +260,9 @@ class Coord_Reporter(models.Model):
 
 	def get_field_values(self):
 		return [(field.value_to_string(self)) for field in self._meta.fields]
+
+	def __str__(self):
+		return str(self.user.username)	
 
 	class Meta:
 		verbose_name = "Coordinates Reporters"

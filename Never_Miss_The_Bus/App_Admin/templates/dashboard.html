@@ -21,14 +21,14 @@
                     <table class="table table-hover table-striped">
                         <tbody>
                             {% for i in app_models %}
-                            {% if i != 'route-stop relationship' %}
+                            {% if i != 'route-stop relationship' and i != 'Users' %}
                             <tr>
                                 <td>
                                     <div style="line-height: 30px">
                                         {{i}}
                                         <div class="pull-right">
                                             
-                                            <a class="btn btn-info " href="/app_admin/{% cycle 'stop' 'route' 'bus' 'user' 'request' 'reporter' as urls %}/add/" 
+                                            <a class="btn btn-info " href="/app_admin/{% cycle 'stop' 'route' 'bus' 'request' 'reporter' as urls %}/add/" 
                                             style="line-height: 10px;">
                                                 <div class="pe-7s-plus" style="font-size: 15px; padding-right: 10px;float: left;">
                                                 </div>
@@ -36,7 +36,7 @@
                                             </a>
                                             
                                             
-                                            <a class="btn btn-info" href="{% cycle 'stop' 'route' 'bus' 'user' 'request' 'reporter' as urls %}/" style="line-height: 10px; margin-left: 10px">
+                                            <a class="btn btn-info" href="{% cycle 'stop' 'route' 'bus' 'request' 'reporter' as urls %}/" style="line-height: 10px; margin-left: 10px">
                                                 <div class="pe-7s-config" style="font-size: 15px; padding-right: 10px; float: left;">
                                                 </div>
                                                 <div style="font-size: 15px;float: right; line-height: 15px;">View</div>
