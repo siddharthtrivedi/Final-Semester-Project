@@ -1,0 +1,163 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Never Miss The Bus" %}{% endblock %}
+
+{% block body %}
+<body class="landing-page">
+    <nav class="navbar navbar-transparent navbar-absolute">
+    	<div class="container">
+        	<!-- Brand and toggle get grouped for better mobile display -->
+        	<div class="navbar-header">
+        		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example">
+            		<span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+        		</button>
+        		<a class="navbar-brand" href="/">Never Miss The Bus</a>
+        	</div>
+
+        	<div class="collapse navbar-collapse" id="navigation-example">
+        		<ul class="nav navbar-nav navbar-right">
+    				<li>
+		                <a href="https://www.facebook.com/siddharth.trivedi.29" target="_blank" class="btn btn-simple">
+							<i class="fa fa-facebook-square"></i>
+							Facebook
+						</a>
+		            </li>	
+		            <li>
+		                <a href="https://plus.google.com/110391960277280855223" target="_blank" class="btn btn-simple">
+							<i class="fa fa-google-plus-square"></i>
+							Google +
+						</a>
+		            </li>
+        		</ul>
+        	</div>
+    	</div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="header header-filter" style="background-image: url('https://images.unsplash.com/photo-1423655156442-ccc11daa4e99?crop=entropy&dpr=2&fit=crop&fm=jpg&h=750&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1450');">
+            <div class="container">
+                <div class="row">
+					<div class="col-md-6">
+						<h1 class="title"> Reach your stop on pefect time. </h1>
+	                    <h4> No more bus misses and no more waiting at stops. Get real-time location of campus transit vehicles.  </h4>
+	                    <br />
+	                    <div>
+		                    <div style="float: left;">
+			                    <a href="{% url 'registration_register' %}" class="btn btn-danger btn-raised btn-lg">
+									Register Now
+								</a>
+							</div>
+							
+							<div style="float: right;">
+								<a href="{% url 'auth_login' %}" class="btn btn-success btn-raised btn-lg">
+									Login Now
+								</a>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+		<div class="main main-raised">
+			<div class="container">
+		    	<div class="section text-center section-landing">
+	                <div class="row">
+	                    <div class="col-md-8 col-md-offset-2">
+	                        <h2 class="title">Project Vision </h2>
+	                        <h5 class="description">Making the university transit system <b> real-time transparent </b> to the university people by tracking the vehicles’ locations and notifying the trippers when the tansit vehicle is around their stop. So that the tripper can reach at stop on perfect time.
+</h5>
+	                    </div>
+	                </div>
+
+					<div class="features">
+						<div class="row">
+		                    <div class="col-md-4">
+								<div class="feature feature-primary">
+									<i class="material-icons">my_location</i>
+									<h4 class="title">Real-Time Location</h4>
+			                        <p class="description"> Now you can exactly locate any campus transit vehicle in Google's Map API. </p>
+								</div>
+
+		                    </div>
+		                    <div class="col-md-4">
+								<div class="feature feature-success">
+									<i class="material-icons">verified_user</i>
+									<h4 class="title">Two-Step Registration</h4>
+			                        <p class="description"> To get entry into the system any anonymous user must have to pass through two step registration system.  </p>
+								</div>
+
+		                    </div>
+		                    <div class="col-md-4">
+								<div class="feature feature-danger">
+									<i class="material-icons">fingerprint</i>
+									<h4 class="title">Secured with SHA1 </h4>
+			                        <p class="description"> All users' passwords are encryted using SHA1 that ensures user's security. </p>
+								</div>
+
+		                    </div>
+		                </div>
+					</div>
+	            </div>
+
+	        	<div class="section text-center">
+	                <h2 class="title">Something about me</h2>
+
+					<div class="team">
+						<div class="row">
+							<div class="col-md-4" style="float: none; margin: 0 auto;">
+			                    <div class="team-player">
+			                        <img src={% static "img/Siddi_Profile_Pic.jpeg" %} alt="Thumbnail Image" class="img-raised img-circle" width="300" height="200">
+			                        <h4 class="title"> Siddharth Trivedi <br />
+										<small class="text-muted"> Android & Django Developer </small>
+									</h4>
+			                        <p class="description"> I had done small scale projects in Python, Java, VB.Net and ASP.Net. But I found that Python is cool. So I'm developing my current academic project based on real-time transit like NextBus with Python using Django Framework. And now I'm planning to move on Machine Learning. I juz love autonomous stuffs.</p>
+			                    </div>
+			                </div>
+						</div>
+					</div>
+
+	            </div>
+	        </div>
+
+		</div>
+
+	    <footer class="footer">
+	        <div class="container">
+	            <nav class="pull-left">
+	                <ul>
+	                    <li>
+	                        <a href="http://www.creative-tim.com">
+	                            Creative Tim
+	                        </a>
+	                    </li>
+						<li>
+	                        <a href="http://presentation.creative-tim.com">
+	                           About Us
+	                        </a>
+	                    </li>
+	                    <li>
+	                        <a href="http://blog.creative-tim.com">
+	                           Blog
+	                        </a>
+	                    </li>
+	                    <li>
+	                        <a href="http://www.creative-tim.com/license">
+	                            Licenses
+	                        </a>
+	                    </li>
+	                </ul>
+	            </nav>
+	            <div class="copyright pull-right">
+	                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Creative Tim
+	            </div>
+	        </div>
+	    </footer>
+
+	</div>
+</body>
+{% endblock %}

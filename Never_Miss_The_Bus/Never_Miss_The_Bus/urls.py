@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from . import views
 urlpatterns = [
     #django urls
     url(r'^admin/', include(admin.site.urls)),
@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.default.urls')),
     #Custom apps' urls
     url(r'^app_admin/', include('App_Admin.urls', app_name="App_Admin",namespace='admin-app')),
-    url(r'', include('Client.urls', app_name="Client_App",namespace='client-app')),
+    url(r'^client/', include('Client.urls', app_name="Client_App",namespace='client-app')),
+    url(r'^$', views.home, name='home'),
 ]
