@@ -18,6 +18,18 @@ class Stop(models.Model):
 		unique=True,
 	)
 
+	latitude = models.CharField(
+		"Latitude",
+		max_length=10,
+		blank=False,
+	)
+
+	longitude = models.CharField(
+		"Longitude",
+		max_length=10,
+		blank=False,
+	)
+
 	def __str__(self):
 		return self.stop_name
 

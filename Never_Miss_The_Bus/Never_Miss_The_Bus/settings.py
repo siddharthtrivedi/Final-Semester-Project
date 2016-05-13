@@ -144,7 +144,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Registration-redux settings
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
-
+LOGIN_REDIRECT_URL = "/app_admin"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'karanjohar306@gmail.com'
 EMAIL_HOST_PASSWORD = '30630600'

@@ -4,4 +4,5 @@ from Client import views
 
 urlpatterns = [
 	url(r'^$', login_required(views.client_home), name='client_home'),
+	url(r'^test/$', views.client_home1),
 ]

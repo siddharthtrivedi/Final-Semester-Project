@@ -29,46 +29,135 @@
         padding: 0;
         margin: 0;
     }
-    .over_map { position: absolute; top: 10px; right: 10px; z-index: 99; }
+    .over_map { 
+        position: absolute; 
+        z-index: 99;
+        visibility: hidden;
+    }
     
     .wrapper { height: 100%; width: 100%; }
     #map {
         height: 100%;
         width: 100%;
         position: fixed;
+        transition: margin-left .5s;
         /*bottom: 0px;*/
         /*top: 20%;*/
+    }
+    .sidenav {
+        width: 250px;
+        position: absolute;
+        z-index: 1;
+        /*left: -240px;*/
+        background-color: #FFF;
+        opacity: 0.9;
+        overflow-x: hidden;
+        transition: 0.5s;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s
+    }
+
+    .sidenav a:hover, .offcanvas a:focus{
+        color: rgb(42, 86, 86);
+    }
+
+    .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px !important;
+        margin-left: 50px;
+        
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
     }
     </style>
 
 </head>
 
-<body class="account">
-    
+<body>
+    <nav class="navbar" style="background-color: rgba(5,60,60,0.81);">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <a class="navbar-brand" href="/">Never Miss The Bus</a>
+            </div>
+
+            <a href="{% url 'auth_logout' %}"class="pull-right btn" style="color:rgb(212, 255, 255) ;background-color: rgba(13, 30, 30, 0.49);"> Logout </a>
+            <div class="pull-right btn" style="color:rgb(212, 255, 255) ;background-color: rgba(13, 30, 30, 0.49);"> Welcome, {{ request.user.first_name }} {{ request.user.last_name }} </div>
+
+
+            <!-- <div class="collapse navbar-collapse" id="navigation-example">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        
+                    </li>   
+                </ul>
+            </div> -->
+        </div>
+        <!-- <span style="font-size:30px; cursor:pointer" onclick="openNav()">☰</span>     -->
+    </nav>
     
     <div class="wrapper">
-    <div class="over_map">
-            {% if request.method == 'GET'%}
-                <form action="" method="POST">{% csrf_token %}
-                    <select name="bus_select" id="id_bus_select">
-                    {% for bus in buses %}
-                        <option value="{{bus.bus_id}}"> {{bus}} </option>
-                    {% endfor %}
-                    </select>
-                    <input type="submit" value="GET STOPS" />
-                </form>
-            {% else %}
-                <select name="stop_select" id="id_stop_select">
-                {% for stop in stops %}
-                        <option value="{{stop.stop_id}}"> {{stop}} </option>
-                    {% endfor %}
-                </select>
-            {% endif %}
-        </div>
-        <div id="map" />
-    </div>
+        <div class="container" style="width: 100%; height: 100%; padding-bottom: 100px;">
 
+            <div class="over_map" id="openSideNav" style="font-size:30px; cursor:pointer; padding: 20px 0px 0px 20px;" onclick="openNav()">
+                ☰
+            </div>
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <div class="control" style="padding: 60px 10px 0px 20px; text-align: center;">
+                    <form action="" method="POST">{% csrf_token %}
+                        <select name="bus_select" id="id_bus_select" class="select form-control">
+                        {% for bus in buses %}
+                            <option value="{{bus.bus_id}}"> {{bus}} </option>
+                        {% endfor %}
+                        </select>
+                        <br />
+                        <button class="btn btn-raised btn-info" type="submit">
+                        GET STOPS
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div id="map">
+            </div>
+        </div>
     </div>
+    <footer class="footer" style="position: fixed; background-color: rgba(5,60,60,0.81); color: white; ">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                           About Project
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="copyright pull-right">
+                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Siddharth Trivedi
+            </div>
+        </div>
+        </footer>
 
 
 </body>
@@ -93,106 +182,136 @@
             $(window).on('scroll', materialKit.checkScrollForTransparentNavbar);
         });
     </script>
-        <script>
-    var myLatLng = {
-        lat: 20.5937,
-        lng: 78.9629
-    };
-    var map = null;
+    <script>
+        var myLatLng = {
+            lat: 20.5937,
+            lng: 78.9629
+        };
+        var map = null;
 
-    function initMap() {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: myLatLng
+        function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: myLatLng,
+                mapTypeControl: false,
+            });
+
+            directionsDisplay.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+            // document.getElementById('submit').addEventListener('click', function() {
+            //     calculateAndDisplayRoute(directionsService, directionsDisplay);
+            // });
+        }
+
+        var myFirebaseRef = new Firebase("https://nevermissbus.firebaseio.com/");
+
+        var marker = null;
+        var new_lat = 21.278018;
+        var new_lng = 72.883816;
+        myFirebaseRef.child("Coordinates/Lat").on("value", function(snapshot) {
+            new_lat = snapshot.val();
+            // autoUpdate();
         });
 
-        directionsDisplay.setMap(map);
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        myFirebaseRef.child("Coordinates/Lon").on("value", function(snapshot) {
+            new_lng = snapshot.val();
+            autoUpdate();
+        });
 
-        // document.getElementById('submit').addEventListener('click', function() {
-        //     calculateAndDisplayRoute(directionsService, directionsDisplay);
-        // });
-    }
+        function autoUpdate() {
+            var newPoint = new google.maps.LatLng(new_lat, new_lng);
+            if (marker) {
+                marker.setPosition(newPoint);
+            } else {
+                marker = new google.maps.Marker({
+                    position: newPoint,
+                    map: map,
+                    title: "Bus Name: {{ selected_bus }}",
+                    icon: "{% static 'img/bus_stop_geolocalization.png' %}",
 
-    var myFirebaseRef = new Firebase("https://nevermissbus.firebaseio.com/");
-
-    var marker = null;
-    var new_lat = 21.278018;
-    var new_lng = 72.883816;
-    myFirebaseRef.child("Coordinates/Lat").on("value", function(snapshot) {
-        new_lat = snapshot.val();
-        // autoUpdate();
-    });
-
-    myFirebaseRef.child("Coordinates/Lon").on("value", function(snapshot) {
-        new_lng = snapshot.val();
-        autoUpdate();
-    });
-
-    function autoUpdate() {
-        var newPoint = new google.maps.LatLng(new_lat, new_lng);
-        if (marker) {
-            marker.setPosition(newPoint);
-        } else {
-            marker = new google.maps.Marker({
-                position: newPoint,
-                map: map,
-                title: "Hello World"
-            });
-        }
-    }
-
-    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var waypts = [];
-        // var checkboxArray = document.getElementById('waypoints');
-        // console.log(checkboxArray);
-
-        var checkboxArray = {{json_stops|safe}};
-        console.log(checkboxArray);
-
-        for (var i=0; i < checkboxArray.length ; i++) {
-            waypts.push({
-                location: checkboxArray[i],
-                stopover: true
-            });
-        }
-        console.log(waypts);
-
-        var route = directionsService.route({
-            // origin: 'Lalita Chowkadi, Vishal Nagar, Surat, Gujarat',
-            // destination: 'Uka Tarsadia University Rd, Tarsadi, Gujarat ',
-            origin: {{json_origin_stop|safe}},
-            destination: 'Uka Tarsadia University Road',
-            // destination: 'Mumbai',
-            waypoints: waypts,
-            optimizeWaypoints: true,
-            travelMode: google.maps.TravelMode.DRIVING
-        }, function(response, status) {
-            if (status === google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(response);
-                // var route = response.routes[0];
-                // var summaryPanel = document.getElementById('directions-panel');
-                // summaryPanel.innerHTML = '';
-                // // For each route, display summary information.
-                // for (var i = 0; i < route.legs.length; i++) {
-                //     var routeSegment = i + 1;
-                //     summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                //         '</b><br>';
-                //     summaryPanel.innerHTML += route.legs[i].start_address + ' <br> <b> to <b/> <br>';
-                //     summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                //     summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-                // }
-
-            } 
-            else {
-                window.alert('Directions request failed due to ' + status);
+                });
             }
-        });
-        autoUpdate();
-    }
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+            var waypts = [];
+            // var checkboxArray = document.getElementById('waypoints');
+
+            var json_stops_lat_array = {{json_stops_lat|safe}};
+            var json_stops_lon_array = {{json_stops_lon|safe}};
+
+            for (var i=0; i < json_stops_lat_array.length ; i++) {
+                waypts.push({
+                    location: new google.maps.LatLng(json_stops_lat_array[i],json_stops_lon_array[i]),
+                    stopover: true
+                });
+            }
+
+            var origin_stop_lat = {{json_origin_stop_lat|safe}};
+            var origin_stop_lon = {{json_origin_stop_lon|safe}};
+            var route = directionsService.route({
+                origin: new google.maps.LatLng(origin_stop_lat, origin_stop_lon),
+                // destination: 'Uka Tarsadia University Rd, Tarsadi, Gujarat ',
+                // origin: new google.maps.LatLng(origin_stop_lat, origin_stop_lat),
+                destination: 'Uka Tarsadia University Road',
+                // destination: 'Mumbai',
+                 waypoints: waypts,
+                // optimizeWaypoints: true,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, function(response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    // var route = response.routes[0];
+                    // var summaryPanel = document.getElementById('directions-panel');
+                    // summaryPanel.innerHTML = '';
+                    // // For each route, display summary information.
+                    // for (var i = 0; i < route.legs.length; i++) {
+                    //     var routeSegment = i + 1;
+                    //     summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                    //         '</b><br>';
+                    //     summaryPanel.innerHTML += route.legs[i].start_address + ' <br> <b> to <b/> <br>';
+                    //     summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                    //     summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                    // }
+
+                } 
+                else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            autoUpdate();
+        }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJvGXHOagT6ub1NHoDZaN8ca3zxP45Rkw&callback=initMap">
+    </script>
+
+    <script>
+        var map = document.getElementById("map");
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("openSideNav").style.visibility = 'hidden';
+            document.getElementById("mySidenav").removeEventListener('webkitTransitionEnd', showOpenSideNav);
+            
+        }
+
+        function showOpenSideNav(){
+            document.getElementById("openSideNav").style.visibility = 'visible';
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("map").style.marginLeft= "0";
+
+            document.getElementById("mySidenav").addEventListener('webkitTransitionEnd', showOpenSideNav, false);
+
+            // document.getElementById("mySidenav").removeEventListener('webkitTransitionEnd', showOpenSideNav);
+        }
+        $("#map").click(function(e){
+            closeNav();
+        });
+
     </script>
 </html>

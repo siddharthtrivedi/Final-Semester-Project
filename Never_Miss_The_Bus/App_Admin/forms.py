@@ -30,7 +30,7 @@ class Route_Form(forms.ModelForm):
 class Stop_Form(forms.ModelForm):
 	class Meta:
 		model = models.Stop
-		fields = ['stop_name']
+		fields = ['stop_name', 'latitude', 'longitude']
 
 class Bus_Form(forms.ModelForm):
 	class Meta:

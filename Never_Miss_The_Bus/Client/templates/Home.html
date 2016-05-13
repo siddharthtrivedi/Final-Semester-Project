@@ -45,19 +45,28 @@
 						<h1 class="title"> Reach your stop on pefect time. </h1>
 	                    <h4> No more bus misses and no more waiting at stops. Get real-time location of campus transit vehicles.  </h4>
 	                    <br />
-	                    <div>
-		                    <div style="float: left;">
-			                    <a href="{% url 'registration_register' %}" class="btn btn-danger btn-raised btn-lg">
-									Register Now
+	                    {% if not request.user.is_authenticated %}
+		                    <div>
+			                    <div style="float: left;">
+				                    <a href="{% url 'registration_register' %}" class="btn btn-danger btn-raised btn-lg">
+										Register Now
+									</a>
+								</div>
+								
+								<div style="float: right;">
+									<a href="{% url 'auth_login' %}" class="btn btn-success btn-raised btn-lg">
+										Login Now
+									</a>
+								</div>
+							</div>
+
+						{% else %}
+							<div>
+								<a href="{% url 'client-app:client_home' %}" class="btn btn-success btn-raised btn-lg">
+									Go to your dash
 								</a>
 							</div>
-							
-							<div style="float: right;">
-								<a href="{% url 'auth_login' %}" class="btn btn-success btn-raised btn-lg">
-									Login Now
-								</a>
-							</div>
-						</div>
+						{% endif %}
 					</div>
                 </div>
             </div>
@@ -129,31 +138,17 @@
 	    <footer class="footer">
 	        <div class="container">
 	            <nav class="pull-left">
-	                <ul>
-	                    <li>
-	                        <a href="http://www.creative-tim.com">
-	                            Creative Tim
-	                        </a>
-	                    </li>
+					<ul>
 						<li>
-	                        <a href="http://presentation.creative-tim.com">
-	                           About Us
-	                        </a>
-	                    </li>
-	                    <li>
-	                        <a href="http://blog.creative-tim.com">
-	                           Blog
-	                        </a>
-	                    </li>
-	                    <li>
-	                        <a href="http://www.creative-tim.com/license">
-	                            Licenses
-	                        </a>
-	                    </li>
-	                </ul>
+							<a href="http://presentation.creative-tim.com">
+							   About Project
+							</a>
+						</li>
+
+					</ul>
 	            </nav>
 	            <div class="copyright pull-right">
-	                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Creative Tim
+	                &copy; 2016, made with <i class="fa fa-heart heart"></i> by <a href="https://www.facebook.com/siddharth.trivedi.29" target="_blank">Siddharth Trivedi</a>
 	            </div>
 	        </div>
 	    </footer>
