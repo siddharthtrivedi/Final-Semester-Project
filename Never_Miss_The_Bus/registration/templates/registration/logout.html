@@ -1,7 +1,7 @@
 {% extends "registration/registration_base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Account Activated" %}{% endblock %}
+{% block title %}{% trans "Logged out" %}{% endblock %}
 
 {% block content %}
 	<div class="container">
@@ -12,9 +12,13 @@
 					<div class="header header-primary text-center">
 							<h4> {% trans "Logged out" %} </h4>
 					</div>
-					<h4 style="color: green; text-align: center; padding: 20px 20px 40px 20px;">
-					{% blocktrans %}Successfully logged out. {% endblocktrans %}
-					</h4>	
+					<div style="color: green; text-align: center; padding: 20px 20px 40px 20px;">
+						<h4>
+							{% blocktrans %}Successfully logged out. {% endblocktrans %}
+						</h4>	
+						<br />
+						<a class="btn btn-primary" href="{% url 'auth_login' %}">{% trans "Log In again" %}</a>
+					</div>
 					
 				</div>
 			</div>
